@@ -1,0 +1,38 @@
+{
+    "name": "php-ddd/command",
+    "description": "The command part of the Command Query Responsibility Segregation",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {"PhpDDD\\Command\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpDDD\\Command\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/php-ddd/domain.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/php-ddd/event.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Julien Dufresne"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "php-ddd/domain": "dev-master",
+        "php-ddd/event": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "pdepend/pdepend": "@stable"
+    }
+}
