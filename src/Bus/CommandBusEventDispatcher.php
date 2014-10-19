@@ -2,6 +2,7 @@
 namespace PhpDDD\Command\Bus;
 
 use PhpDDD\Command\CommandInterface;
+use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
 use PhpDDD\Event\Bus\EventBusInterface;
 
@@ -41,6 +42,14 @@ class CommandBusEventDispatcher implements CommandBusInterface
         }
 
         return $aggregateRoots;
+    }
+
+    /**
+     * @return CommandHandlerInterface[]
+     */
+    public function getRegisteredCommandHandlers()
+    {
+        return $this->commandBus->getRegisteredCommandHandlers();
     }
 
     /**

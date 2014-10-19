@@ -12,4 +12,9 @@ interface CommandHandlerLocatorInterface
      * @return CommandHandlerInterface
      */
     public function getCommandHandler(CommandInterface $command);
+
+    /**
+     * @return CommandHandlerInterface[]
+     */
+    public function getRegisteredCommandHandlers();
 }

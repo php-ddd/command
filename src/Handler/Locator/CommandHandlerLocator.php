@@ -37,9 +37,9 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
     }
 
     /**
-     * @return \PhpDDD\Command\Handler\CommandHandlerInterface[]
+     * @return CommandHandlerInterface[]
      */
-    public function getHandlers()
+    public function getRegisteredCommandHandlers()
     {
         return $this->handlers;
     }
