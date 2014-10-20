@@ -37,6 +37,7 @@ class CommandBusEventDispatcher implements CommandBusInterface
     public function dispatch(CommandInterface $command)
     {
         $aggregateRoots = $this->commandBus->dispatch($command);
+
         foreach ($aggregateRoots as $aggregateRoot) {
             $this->dispatchEvents($aggregateRoot);
         }
@@ -61,6 +62,7 @@ class CommandBusEventDispatcher implements CommandBusInterface
 
         foreach ($events as $event) {
             $commandsToDispatch = $this->eventBus->publish($event);
+
             if (count($commandsToDispatch) > 0) {
                 foreach ($commandsToDispatch as $command) {
                     $this->dispatch($command);
