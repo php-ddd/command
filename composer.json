@@ -11,16 +11,6 @@
             "PhpDDD\\Command\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/php-ddd/domain.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/php-ddd/event.git"
-        }
-    ],
     "authors": [
         {
             "name": "Julien Dufresne"
