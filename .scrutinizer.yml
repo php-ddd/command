@@ -1,7 +1,6 @@
 tools:
     php_analyzer: true
     php_sim: true
-    external_code_coverage: true
     php_code_coverage: true
     php_changetracking: true
     php_code_sniffer:
@@ -21,6 +20,7 @@ filter:
 
 checks:
     php:
+        external_code_coverage: true
         code_rating: true
         code_coverage: true
         duplication: true
