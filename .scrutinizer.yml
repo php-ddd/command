@@ -2,6 +2,7 @@ tools:
     php_sim: true
     php_pdepend: true
     php_analyzer: true
+
 filter:
     excluded_paths:
         - 'tests/*'
@@ -9,8 +10,10 @@ filter:
         - 'src/*'
 
 checks:
+    external_code_coverage: true
     php:
         code_rating: true
+        code_coverage: true
         duplication: true
         variable_existence: true
         useless_calls: true
@@ -99,7 +102,6 @@ checks:
         lowercase_php_keywords: true
         lowercase_basic_constants: true
         function_in_camel_caps: true
-        function_body_start_on_same_line: true
         fix_php_opening_tag: true
         fix_linefeed: true
         fix_line_ending: true
@@ -146,3 +148,4 @@ checks:
         catch_class_exists: true
         argument_type_checks: true
         avoid_entity_manager_injection: true
+        function_body_start_on_new_line: true
