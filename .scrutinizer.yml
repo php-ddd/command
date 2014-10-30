@@ -1,6 +1,6 @@
 tools:
+    external_code_coverage: true
     php_analyzer: true
-    php_sim: true
     php_code_coverage: true
     php_changetracking: true
     php_code_sniffer:
@@ -11,6 +11,7 @@ tools:
         config: { level: psr2 }
     php_mess_detector: true
     php_pdepend: true
+    php_sim: true
 
 filter:
     excluded_paths:
@@ -20,7 +21,6 @@ filter:
 
 checks:
     php:
-        external_code_coverage: true
         code_rating: true
         code_coverage: true
         duplication: true
