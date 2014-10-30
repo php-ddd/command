@@ -2,7 +2,7 @@ Command
 =======
 
 [![Build Status](https://travis-ci.org/php-ddd/command.svg)](https://travis-ci.org/php-ddd/command)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-ddd/command/badges/quality-score.png](https://scrutinizer-ci.com/g/php-ddd/command/)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-ddd/command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master)
 
 This library provides some useful tools in order to create a simple command system.
 
