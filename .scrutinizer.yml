@@ -1,7 +1,17 @@
 tools:
-    php_sim: true
-    php_pdepend: true
     php_analyzer: true
+    php_sim: true
+    external_code_coverage: true
+    php_code_coverage: true
+    php_changetracking: true
+    php_code_sniffer:
+        config:
+            standard:         "PSR2"
+    php_cpd: true
+    php_cs_fixer:
+        config: { level: psr2 }
+    php_mess_detector: true
+    php_pdepend: true
 
 filter:
     excluded_paths:
@@ -10,7 +20,6 @@ filter:
         - 'src/*'
 
 checks:
-    external_code_coverage: true
     php:
         code_rating: true
         code_coverage: true
