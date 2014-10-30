@@ -22,7 +22,6 @@ filter:
 checks:
     php:
         code_rating: true
-        code_coverage: true
         duplication: true
         variable_existence: true
         useless_calls: true
