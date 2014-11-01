@@ -31,10 +31,14 @@ checks:
         unused_parameters: true
         unused_methods: true
         unreachable_code: true
-        sql_injection_vulnerabilities: false
-        security_vulnerabilities: false
-        precedence_mistakes: false
-        precedence_in_conditions: false
+        # false
+        sql_injection_vulnerabilities: true
+        # false
+        security_vulnerabilities: true
+        # false
+        precedence_mistakes: true
+        # false
+        precedence_in_conditions: true
         parameter_non_unique: true
         no_property_on_interface: true
         no_non_implemented_abstract_methods: true
@@ -61,7 +65,8 @@ checks:
         spacing_around_conditional_operators: true
         space_after_cast: true
         single_namespace_per_use: true
-        simplify_boolean_return: false
+        # false
+        simplify_boolean_return: true
         scope_indentation:
             spaces_per_level: '4'
         require_scope_for_properties: true
@@ -71,7 +76,8 @@ checks:
         remove_php_closing_tag: true
         remove_extra_empty_lines: true
         psr2_switch_declaration: true
-        psr2_control_structure_declaration: false
+        # false
+        psr2_control_structure_declaration: true
         psr2_class_declaration: true
         properties_in_camelcaps: true
         prefer_while_loop_over_for_loop: true
