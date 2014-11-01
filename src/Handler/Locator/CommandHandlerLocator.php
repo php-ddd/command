@@ -3,8 +3,8 @@ namespace PhpDDD\Command\Handler\Locator;
 
 use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
-use PhpDDD\Command\Handler\Locator\Exception\CommandAlreadyRegisteredException;
 use PhpDDD\Command\Handler\Locator\Exception\BadCommandHandlerNamingException;
+use PhpDDD\Command\Handler\Locator\Exception\CommandAlreadyRegisteredException;
 use PhpDDD\Command\Handler\Locator\Exception\CommandNotRegisteredException;
 
 class CommandHandlerLocator implements CommandHandlerLocatorInterface

@@ -2,8 +2,8 @@
 
 namespace PhpDDD\Command\Handler;
 
-use PhpDDD\Command\CommandInterface;
 use InvalidArgumentException;
+use PhpDDD\Command\CommandInterface;
 
 abstract class AbstractCommandHandler implements CommandHandlerInterface
 {
