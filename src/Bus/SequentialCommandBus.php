@@ -90,9 +90,9 @@ class SequentialCommandBus implements CommandBusInterface
             $commandHandler = $this->locator->getCommandHandler($command);
 
             $aggregateRoot = $commandHandler->handle($command);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->executing = false;
-            $this->handleException($e, $first);
+            $this->handleException($exception, $first);
         }
 
         $this->executing = false;
@@ -105,15 +105,15 @@ class SequentialCommandBus implements CommandBusInterface
      * If we have a sub-command that throw an exception, it should not prevent other sub-command to be executed.
      * We may need to rollback the whole process.
      *
-     * @param Exception $e
+     * @param Exception $exception
      * @param bool      $first
      *
      * @throws \Exception
      */
-    protected function handleException(Exception $e, $first)
+    protected function handleException(Exception $exception, $first)
     {
         if ($first) {
-            throw $e;
+            throw $exception;
         }
     }
 }
