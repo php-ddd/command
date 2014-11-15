@@ -3,7 +3,6 @@ Command
 
 [![Build Status](https://travis-ci.org/php-ddd/command.svg)](https://travis-ci.org/php-ddd/command)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-ddd/command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master)
-[ ![Codeship Status for php-ddd/command](https://codeship.io/projects/724d9610-4556-0132-1ad1-66d5ac96f43f/status)](https://codeship.io/projects/44970)
 
 This library provides some useful tools in order to create a simple command system.
 
