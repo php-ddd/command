@@ -1,10 +1,14 @@
 <?php
-namespace PhpDDD\Command\Handler\Locator;
+namespace PhpDDD\Command\Test\Handler\Locator;
 
 use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
+use PhpDDD\Command\Handler\Locator\CommandHandlerLocator;
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Test of the CommandHandlerLocator
+ */
 class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
 {
 
@@ -15,21 +19,22 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
 
     public function testRegister()
     {
-        $this->locator->register('MyCommand', $this->getCommandHandlerMock('MyCommandHandler'));
+        $command = $this->getCommandMock();
+        $this->locator->register(get_class($command), $this->getCommandHandlerMock('MyCommandHandler'));
         $this->assertTrue(true, 'command should be registered');
     }
 
     /**
-     * @expectedException \PhpDDD\Command\Handler\Locator\Exception\BadCommandHandlerNamingException
+     * @expectedException \PhpDDD\Command\Exception\InvalidArgumentException
      */
     public function testRegisterWithBadNamingConvention()
     {
-        $mock = $this->getCommandHandlerMock('MyCommand');
+        $mock = $this->getCommandHandlerMock('MyCommandHandler');
         $this->locator->register('WrongCommandHandler', $mock);
     }
 
     /**
-     * @expectedException \PhpDDD\Command\Handler\Locator\Exception\CommandAlreadyRegisteredException
+     * @expectedException \PhpDDD\Command\Exception\InvalidArgumentException
      */
     public function testRegisterTwoHandlerForSameCommand()
     {
@@ -41,7 +46,7 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
     {
         $commandMock = $this->getCommandMock();
         $commandClassName = get_class($commandMock);
-        $commandHandlerClassName = $commandClassName . 'CommandHandler';
+        $commandHandlerClassName = $commandClassName . 'Handler';
         $this->locator->register($commandClassName, $this->getCommandHandlerMock($commandHandlerClassName));
         $handler     = $this->locator->getCommandHandler($commandMock);
 
@@ -49,7 +54,7 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \PhpDDD\Command\Handler\Locator\Exception\CommandNotRegisteredException
+     * @expectedException \PhpDDD\Command\Exception\InvalidArgumentException
      */
     public function testGetCommandHandlerWithUnknownCommand()
     {
@@ -82,6 +87,7 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
     {
         return $this
             ->getMockBuilder('\PhpDDD\Command\CommandInterface')
+            ->setMockClassName('MyCommand')
             ->getMock();
     }
 }

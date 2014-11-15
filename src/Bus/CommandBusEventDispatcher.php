@@ -6,6 +6,10 @@ use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
 use PhpDDD\Event\Bus\EventBusInterface;
 
+/**
+ * Class that act as a CommandBus and dispatch events
+ * @see php-ddd/event project
+ */
 class CommandBusEventDispatcher implements CommandBusInterface
 {
 

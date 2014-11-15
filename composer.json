@@ -8,7 +8,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpDDD\\Command\\": "tests/"
+            "PhpDDD\\Command\\Test\\": "tests/"
         }
     },
     "authors": [

@@ -79,6 +79,7 @@ class SequentialCommandBus implements CommandBusInterface
      * @param CommandInterface $command
      * @param bool             $first
      *
+     * @throws Exception
      * @return AbstractAggregateRoot|null
      */
     protected function invokeHandler(CommandInterface $command, $first)

@@ -2,13 +2,16 @@
 namespace PhpDDD\Command\Handler\Locator;
 
 use PhpDDD\Command\CommandInterface;
+use PhpDDD\Command\Exception\InvalidArgumentException;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
-use PhpDDD\Command\Handler\Locator\Exception\BadCommandHandlerNamingException;
-use PhpDDD\Command\Handler\Locator\Exception\CommandAlreadyRegisteredException;
-use PhpDDD\Command\Handler\Locator\Exception\CommandNotRegisteredException;
+use PhpDDD\Command\Utils\ClassUtils;
 
+/**
+ * Implementation of CommandHandlerLocatorInterface
+ */
 class CommandHandlerLocator implements CommandHandlerLocatorInterface
 {
+
     /**
      * @var CommandHandlerInterface[]
      */
@@ -18,22 +21,22 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      * @param CommandInterface $command
      *
      * @return CommandHandlerInterface
-     * @throws CommandNotRegisteredException
+     * @throws InvalidArgumentException
      */
     public function getCommandHandler(CommandInterface $command)
     {
-        $commandType = get_class($command);
+        $commandClassName = get_class($command);
 
-        if (!isset($this->handlers[strtolower($commandType)])) {
-            throw new CommandNotRegisteredException(
+        if (!$this->isKnownCommand($commandClassName)) {
+            throw new InvalidArgumentException(
                 sprintf(
                     'No handler registered for command "%s".',
-                    $commandType
+                    $commandClassName
                 )
             );
         }
 
-        return $this->handlers[strtolower($commandType)];
+        return $this->handlers[strtolower($commandClassName)];
     }
 
     /**
@@ -48,14 +51,14 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      * @param string                  $commandClassName
      * @param CommandHandlerInterface $commandHandler
      *
-     * @throws CommandAlreadyRegisteredException
+     * @throws InvalidArgumentException
      */
     public function register($commandClassName, CommandHandlerInterface $commandHandler)
     {
-        $this->assertCommandHandlerNamingConvention($commandClassName, get_class($commandHandler));
+        $this->assertNamingConventionSatisfied($commandClassName, get_class($commandHandler));
 
-        if ($this->handlerAlreadyExistsForCommand($commandClassName)) {
-            throw new CommandAlreadyRegisteredException(
+        if ($this->isKnownCommand($commandClassName)) {
+            throw new InvalidArgumentException(
                 sprintf(
                     'A command handler has already been defined for the command "%s". Previous handler: %s. New handler: %s',
                     $commandClassName,
@@ -71,16 +74,16 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      * @param string $commandClassName
      * @param string $handlerClassName
      *
-     * @throws BadCommandHandlerNamingException
+     * @throws InvalidArgumentException
      */
-    private function assertCommandHandlerNamingConvention($commandClassName, $handlerClassName)
+    private function assertNamingConventionSatisfied($commandClassName, $handlerClassName)
     {
-        if (!$this->isCommandHandlerFollowNamingConvention($commandClassName, $handlerClassName)) {
-            throw new BadCommandHandlerNamingException(
+        if (!$this->isNamingConventionSatisfied($commandClassName, $handlerClassName)) {
+            throw new InvalidArgumentException(
                 sprintf(
                     'Command Handler does not follow naming convention. Expected: "%s". "%s" given.',
                     $this->getExpectedHandlerName($commandClassName),
-                    $this->getClassName($handlerClassName)
+                    ClassUtils::shortName($handlerClassName)
                 )
             );
         }
@@ -92,23 +95,11 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      *
      * @return bool
      */
-    private function isCommandHandlerFollowNamingConvention($commandClassName, $handlerClassName)
+    private function isNamingConventionSatisfied($commandClassName, $handlerClassName)
     {
-        $handlerClassName = $this->getClassName($handlerClassName);
+        $handlerClassName = ClassUtils::shortName($handlerClassName);
 
         return $this->getExpectedHandlerName($commandClassName) === $handlerClassName;
-    }
-
-    /**
-     * @param string $classNameWithNamespace
-     *
-     * @return mixed
-     */
-    private function getClassName($classNameWithNamespace)
-    {
-        $classNameWithNamespace = explode('\\', $classNameWithNamespace);
-
-        return end($classNameWithNamespace);
     }
 
     /**
@@ -118,7 +109,7 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      */
     private function getExpectedHandlerName($commandClassName)
     {
-        $commandClassName = $this->getClassName($commandClassName);
+        $commandClassName = ClassUtils::shortName($commandClassName);
         if ('Command' === substr($commandClassName, -7)) {
             $commandClassName = substr($commandClassName, 0, -7);
         }
@@ -131,7 +122,7 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      *
      * @return bool
      */
-    private function handlerAlreadyExistsForCommand($commandClassName)
+    private function isKnownCommand($commandClassName)
     {
         return isset($this->handlers[strtolower($commandClassName)]);
     }

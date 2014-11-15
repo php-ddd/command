@@ -1,10 +1,14 @@
 <?php
-namespace PhpDDD\Command\Handler;
+namespace PhpDDD\Command\Test\Handler;
 
 use PhpDDD\Command\CommandInterface;
+use PhpDDD\Command\Handler\AbstractCommandHandler;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Test of the AbstractCommandHandler class
+ */
 class AbstractCommandHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -16,6 +20,12 @@ class AbstractCommandHandlerTest extends PHPUnit_Framework_TestCase
      * @var CommandInterface|PHPUnit_Framework_MockObject_MockObject
      */
     private $command;
+
+    public function setUp()
+    {
+        $this->command  = $this->getMockBuilder('PhpDDD\Command\CommandInterface')->getMock();
+        $this->instance = $this->getMockForAbstractClass('PhpDDD\Command\Handler\AbstractCommandHandler');
+    }
 
     public function testAcceptCommand()
     {
@@ -33,11 +43,5 @@ class AbstractCommandHandlerTest extends PHPUnit_Framework_TestCase
             ->willReturn('MyCommand');
 
         $this->assertFalse($this->instance->acceptCommand($this->command));
-    }
-
-    protected function setUp()
-    {
-        $this->command  = $this->getMockBuilder('PhpDDD\Command\CommandInterface')->getMock();
-        $this->instance = $this->getMockForAbstractClass('PhpDDD\Command\Handler\AbstractCommandHandler');
     }
 }
