@@ -67,7 +67,7 @@ class CommandBusEventDispatcher implements CommandBusInterface
 
                 return;
             }
-            if (is_object($element) && $element instanceof AbstractAggregateRoot) {
+            if ($element instanceof AbstractAggregateRoot) {
                 $this->dispatchEventsForAggregateRoot($element);
             }
         }
@@ -83,9 +83,6 @@ class CommandBusEventDispatcher implements CommandBusInterface
         foreach ($events as $event) {
             $commandsToDispatch = $this->eventBus->publish($event);
 
-            if (empty($commandsToDispatch)) {
-                continue;
-            }
             foreach ($commandsToDispatch as $command) {
                 if ($command instanceof CommandInterface) {
                     $this->dispatch($command);
