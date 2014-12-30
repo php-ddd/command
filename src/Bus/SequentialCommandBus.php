@@ -3,7 +3,6 @@ namespace PhpDDD\Command\Bus;
 
 use Exception;
 use PhpDDD\Command\CommandInterface;
-use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Command\Handler\Locator\CommandHandlerLocatorInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
 
@@ -44,9 +43,7 @@ class SequentialCommandBus implements CommandBusInterface
      * If an exception occurs in any command it will be put on a stack
      * of exceptions that is thrown only when all the commands are processed.
      *
-     * @param CommandInterface $command
-     *
-     * @return AbstractAggregateRoot[]
+     * [@inheritdoc}
      */
     public function dispatch(CommandInterface $command)
     {
@@ -68,7 +65,7 @@ class SequentialCommandBus implements CommandBusInterface
     }
 
     /**
-     * @return CommandHandlerInterface[]
+     * {@inheritdoc}
      */
     public function getRegisteredCommandHandlers()
     {
@@ -88,7 +85,7 @@ class SequentialCommandBus implements CommandBusInterface
         try {
             $this->executing = true;
 
-            $commandHandler = $this->locator->getCommandHandler($command);
+            $commandHandler = $this->locator->getCommandHandlerForCommand($command);
 
             $aggregateRoot = $commandHandler->handle($command);
         } catch (Exception $exception) {

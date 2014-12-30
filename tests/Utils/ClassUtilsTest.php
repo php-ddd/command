@@ -1,8 +1,8 @@
 <?php
-namespace PhpDDD\Command\Test\Utils;
+namespace PhpDDD\Command\Utils;
 
 use PhpDDD\Command\Exception\InvalidArgumentException;
-use PhpDDD\Command\Utils\ClassUtils;
+use PhpDDD\Command\Handler\Locator\CommandHandlerLocator;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -12,19 +12,19 @@ class ClassUtilsTest extends PHPUnit_Framework_TestCase
 {
     public function testShortName()
     {
-        $object = new ClassUtilsTest();
+        $object = new CommandHandlerLocator();
         $this->assertEquals(
-            'ClassUtilsTest',
+            'CommandHandlerLocator',
             ClassUtils::shortName($object),
             'passing an object should return the class name without namespace'
         );
         $this->assertEquals(
-            'ClassUtilsTest',
-            ClassUtils::shortName('PhpDDD\\Command\\Test\\Utils\\ClassUtilsTest'),
+            'CommandHandlerLocator',
+            ClassUtils::shortName('PhpDDD\\Command\\Handler\\Locator\\CommandHandlerLocator'),
             'passing the fully qualified namespace should return the class name without namespace'
         );
         $this->assertEquals(
-            'ClassUtilsTest',
+            'CommandHandlerLocator',
             ClassUtils::shortName(get_class($object)),
             'using get_class should return the class name without namespace'
         );

@@ -3,6 +3,7 @@ namespace PhpDDD\Command\Handler\Locator;
 
 use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Exception\InvalidArgumentException;
+use PhpDDD\Command\Exception\NoCommandHandlerRegisteredException;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Command\Utils\ClassUtils;
 
@@ -18,19 +19,16 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
     private $handlers = array();
 
     /**
-     * @param CommandInterface $command
-     *
-     * @return CommandHandlerInterface
-     * @throws InvalidArgumentException
+     * {@inheritdoc}
      */
-    public function getCommandHandler(CommandInterface $command)
+    public function getCommandHandlerForCommand(CommandInterface $command)
     {
         $commandClassName = get_class($command);
 
-        if (!$this->isKnownCommand($commandClassName)) {
-            throw new InvalidArgumentException(
+        if (!$this->isCommandRegistered($commandClassName)) {
+            throw new NoCommandHandlerRegisteredException(
                 sprintf(
-                    'No handler registered for command "%s".',
+                    'No handler registered to handle command "%s".',
                     $commandClassName
                 )
             );
@@ -56,8 +54,9 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
     public function register($commandClassName, CommandHandlerInterface $commandHandler)
     {
         $this->assertNamingConventionSatisfied($commandClassName, get_class($commandHandler));
+        $this->assertImplementsCommandInterface($commandClassName);
 
-        if ($this->isKnownCommand($commandClassName)) {
+        if ($this->isCommandRegistered($commandClassName)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'A command handler has already been defined for the command "%s". Previous handler: %s. New handler: %s',
@@ -114,7 +113,7 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
             $commandClassName = substr($commandClassName, 0, -7);
         }
 
-        return $commandClassName . 'CommandHandler';
+        return $commandClassName.'CommandHandler';
     }
 
     /**
@@ -122,8 +121,23 @@ class CommandHandlerLocator implements CommandHandlerLocatorInterface
      *
      * @return bool
      */
-    private function isKnownCommand($commandClassName)
+    private function isCommandRegistered($commandClassName)
     {
         return isset($this->handlers[strtolower($commandClassName)]);
+    }
+
+    /**
+     * @param string $commandClassName
+     */
+    private function assertImplementsCommandInterface($commandClassName)
+    {
+        if (!in_array('PhpDDD\\Command\\CommandInterface', class_implements($commandClassName), true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'The class %s must implements the PhpDDD\\Command\\CommandInterface.',
+                    $commandClassName
+                )
+            );
+        }
     }
 }

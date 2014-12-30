@@ -4,10 +4,11 @@ namespace PhpDDD\Command\Bus;
 use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
-use PhpDDD\Event\Bus\EventBusInterface;
+use PhpDDD\Domain\Event\Bus\EventBusInterface;
 
 /**
  * Class that act as a CommandBus and dispatch events
+ *
  * @see php-ddd/event project
  */
 class CommandBusEventDispatcher implements CommandBusInterface
@@ -42,9 +43,7 @@ class CommandBusEventDispatcher implements CommandBusInterface
     {
         $aggregateRoots = $this->commandBus->dispatch($command);
 
-        foreach ($aggregateRoots as $aggregateRoot) {
-            $this->dispatchEvents($aggregateRoot);
-        }
+        $this->dispatchEvents($aggregateRoots);
 
         return $aggregateRoots;
     }
@@ -58,17 +57,37 @@ class CommandBusEventDispatcher implements CommandBusInterface
     }
 
     /**
+     * @param array $elements
+     */
+    private function dispatchEvents(array $elements)
+    {
+        foreach ($elements as $element) {
+            if (is_array($element)) {
+                $this->dispatchEvents($element);
+
+                return;
+            }
+            if (is_object($element) && $element instanceof AbstractAggregateRoot) {
+                $this->dispatchEventsForAggregateRoot($element);
+            }
+        }
+    }
+
+    /**
      * @param AbstractAggregateRoot $aggregateRoot
      */
-    private function dispatchEvents(AbstractAggregateRoot $aggregateRoot)
+    private function dispatchEventsForAggregateRoot(AbstractAggregateRoot $aggregateRoot)
     {
         $events = $aggregateRoot->pullEvents();
 
         foreach ($events as $event) {
             $commandsToDispatch = $this->eventBus->publish($event);
 
-            if (count($commandsToDispatch) > 0) {
-                foreach ($commandsToDispatch as $command) {
+            if (empty($commandsToDispatch)) {
+                continue;
+            }
+            foreach ($commandsToDispatch as $command) {
+                if ($command instanceof CommandInterface) {
                     $this->dispatch($command);
                 }
             }
