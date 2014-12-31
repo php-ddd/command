@@ -12,6 +12,7 @@ class CommandBusEventDispatcherTest extends PHPUnit_Framework_TestCase
 
         $bus->dispatch($this->getCommandMock());
         $this->assertCount(1, $bus->getRegisteredCommandHandlers());
+        $this->assertCount(0, $bus->getRegisteredEventListeners());
     }
 
     public function testDispatchMultipleCommand()
@@ -71,11 +72,15 @@ class CommandBusEventDispatcherTest extends PHPUnit_Framework_TestCase
     private function getEmptyEventBusMock()
     {
         $mock = $this->getMockBuilder('PhpDDD\Domain\Event\Bus\EventBusInterface')
-            ->setMethods(array('publish'))
+            ->setMethods(array('publish', 'getRegisteredEventListeners'))
             ->getMockForAbstractClass();
 
         $mock->expects($this->any())
             ->method('publish')
+            ->willReturn(array());
+
+        $mock->expects($this->any())
+            ->method('getRegisteredEventListeners')
             ->willReturn(array());
 
         return $mock;

@@ -5,13 +5,15 @@ use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
 use PhpDDD\Domain\Event\Bus\EventBusInterface;
+use PhpDDD\Domain\Event\EventInterface;
+use PhpDDD\Domain\Event\Listener\EventListenerInterface;
 
 /**
  * Class that act as a CommandBus and dispatch events
  *
  * @see php-ddd/event project
  */
-class CommandBusEventDispatcher implements CommandBusInterface
+class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterface
 {
 
     /**
@@ -81,13 +83,36 @@ class CommandBusEventDispatcher implements CommandBusInterface
         $events = $aggregateRoot->pullEvents();
 
         foreach ($events as $event) {
-            $commandsToDispatch = $this->eventBus->publish($event);
+            $this->publish($event);
+        }
+    }
 
-            foreach ($commandsToDispatch as $command) {
-                if ($command instanceof CommandInterface) {
-                    $this->dispatch($command);
-                }
+    /**
+     * Publishes the event $event to every EventListener that wants to.
+     *
+     * @param EventInterface $event
+     *
+     * @return array data returned by each EventListener
+     */
+    public function publish(EventInterface $event)
+    {
+        $commandsToDispatch = $this->eventBus->publish($event);
+
+        foreach ($commandsToDispatch as $command) {
+            if ($command instanceof CommandInterface) {
+                $this->dispatch($command);
             }
         }
+    }
+
+    /**
+     * Get the list of every EventListener defined in the EventBus.
+     * This might be useful for debug
+     *
+     * @return EventListenerInterface[]
+     */
+    public function getRegisteredEventListeners()
+    {
+        return $this->eventBus->getRegisteredEventListeners();
     }
 }
