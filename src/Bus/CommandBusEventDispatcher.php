@@ -98,10 +98,9 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
     {
         $commandsToDispatch = $this->eventBus->publish($event);
 
-        foreach ($commandsToDispatch as $command) {
-            if ($command instanceof CommandInterface) {
-                $this->dispatch($command);
-            }
+        $commands = $this->extractCommands($commandsToDispatch);
+        foreach ($commands as $command) {
+            $this->dispatch($command);
         }
     }
 
@@ -114,5 +113,24 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
     public function getRegisteredEventListeners()
     {
         return $this->eventBus->getRegisteredEventListeners();
+    }
+
+    /**
+     * @param array $commandsToDispatch
+     *
+     * @return CommandInterface[]
+     */
+    private function extractCommands(array $commandsToDispatch)
+    {
+        $commands = array();
+        foreach ($commandsToDispatch as $command) {
+            if (is_array($command)) {
+                $commands = array_merge($commands, $this->extractCommands($command));
+            } elseif ($command instanceof CommandInterface) {
+                $commands[] = $command;
+            }
+        }
+
+        return $commands;
     }
 }
