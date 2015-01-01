@@ -37,7 +37,7 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
         $commandClassName        = get_class($commandMock);
         $commandHandlerClassName = $commandClassName.'CommandHandler';
         $this->locator->register($commandClassName, $this->getCommandHandlerMock($commandHandlerClassName));
-        $handler     = $this->locator->getCommandHandlerForCommand($commandMock);
+        $handler = $this->locator->getCommandHandlerForCommand($commandMock);
 
         $this->assertNotNull($handler);
     }
@@ -68,7 +68,7 @@ class CommandHandlerLocatorTest extends PHPUnit_Framework_TestCase
         $commandClassName        = get_class($commandMock);
         $commandHandlerClassName = $commandClassName.'Handler';
         $this->locator->register($commandClassName, $this->getCommandHandlerMock($commandHandlerClassName));
-        $handler     = $this->locator->getCommandHandlerForCommand($commandMock);
+        $handler = $this->locator->getCommandHandlerForCommand($commandMock);
 
         $this->assertNotNull($handler);
         $this->assertCount(1, $this->locator->getRegisteredCommandHandlers());

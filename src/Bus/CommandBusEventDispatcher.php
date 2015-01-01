@@ -59,6 +59,34 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
     }
 
     /**
+     * Publishes the event $event to every EventListener that wants to.
+     *
+     * @param EventInterface $event
+     *
+     * @return array data returned by each EventListener
+     */
+    public function publish(EventInterface $event)
+    {
+        $commandsToDispatch = $this->eventBus->publish($event);
+
+        $commands = $this->extractCommands($commandsToDispatch);
+        foreach ($commands as $command) {
+            $this->dispatch($command);
+        }
+    }
+
+    /**
+     * Get the list of every EventListener defined in the EventBus.
+     * This might be useful for debug
+     *
+     * @return EventListenerInterface[]
+     */
+    public function getRegisteredEventListeners()
+    {
+        return $this->eventBus->getRegisteredEventListeners();
+    }
+
+    /**
      * @param array $elements
      */
     private function dispatchEvents(array $elements)
@@ -85,34 +113,6 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
         foreach ($events as $event) {
             $this->publish($event);
         }
-    }
-
-    /**
-     * Publishes the event $event to every EventListener that wants to.
-     *
-     * @param EventInterface $event
-     *
-     * @return array data returned by each EventListener
-     */
-    public function publish(EventInterface $event)
-    {
-        $commandsToDispatch = $this->eventBus->publish($event);
-
-        $commands = $this->extractCommands($commandsToDispatch);
-        foreach ($commands as $command) {
-            $this->dispatch($command);
-        }
-    }
-
-    /**
-     * Get the list of every EventListener defined in the EventBus.
-     * This might be useful for debug
-     *
-     * @return EventListenerInterface[]
-     */
-    public function getRegisteredEventListeners()
-    {
-        return $this->eventBus->getRegisteredEventListeners();
     }
 
     /**

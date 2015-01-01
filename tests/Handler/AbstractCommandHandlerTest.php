@@ -11,6 +11,7 @@ use PHPUnit_Framework_TestCase;
  */
 class AbstractCommandHandlerTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @var AbstractCommandHandler|PHPUnit_Framework_MockObject_MockObject
      */
