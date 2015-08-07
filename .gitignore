@@ -5,6 +5,9 @@
 # IDE
 /.idea/
 
+### Mac
+.DS_Store
+
 ### Php-cs
 /.php_cs.cache
 
