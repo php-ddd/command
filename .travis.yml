@@ -10,12 +10,12 @@ php:
 
 cache:
   directories:
-    - bin
     - vendor
+    - $HOME/.composer/cache
 
 before_install:
   - composer selfupdate
-  - composer config --global github-oauth.github.com $github_oauth_token
+  - composer config --global github-oauth.github.com $GITHUB_OAUTH_TOKEN
 
 install:
   - composer install --no-interaction --prefer-dist
@@ -24,6 +24,3 @@ script:
   - phpunit --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-after_script:
-  - rm -v ./vendor/autoload.php ./vendor/composer/!(installed.json)
