@@ -8,7 +8,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpDDD\\Command\\Test\\": "tests/"
+            "PhpDDD\\Command\\": "tests/"
         }
     },
     "authors": [
@@ -21,11 +21,10 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "php-ddd/domain": "dev-master",
-        "php-ddd/event": "dev-master"
+        "php-ddd/domain-event": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*",
-        "pdepend/pdepend": "@stable"
+        "fabpot/php-cs-fixer": "dev-master"
     }
 }

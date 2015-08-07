@@ -1,5 +1,4 @@
 <?php
-
 namespace PhpDDD\Command\Handler;
 
 use InvalidArgumentException;
@@ -13,17 +12,15 @@ abstract class AbstractCommandHandler implements CommandHandlerInterface
     /**
      * @inheritdoc
      */
-    public function acceptCommand(CommandInterface $command)
+    public function supports($commandClassName)
     {
-        $allowedCommandClassName = $this->getAllowedCommandClassName();
-
-        return $command instanceof $allowedCommandClassName;
+        return $this->getSupportedCommandClassName() === $commandClassName;
     }
 
     /**
      * @return string the fully qualified name of the command class that this handler can accept.
      */
-    abstract public function getAllowedCommandClassName();
+    abstract public function getSupportedCommandClassName();
 
     /**
      * @param CommandInterface $command
@@ -33,11 +30,11 @@ abstract class AbstractCommandHandler implements CommandHandlerInterface
      */
     public function handle(CommandInterface $command)
     {
-        if (!$this->acceptCommand($command)) {
+        if (!$this->supports(get_class($command))) {
             throw new InvalidArgumentException(
                 sprintf(
                     'The command must be an instance of "%s". "%s" given.',
-                    $this->getAllowedCommandClassName(),
+                    $this->getSupportedCommandClassName(),
                     get_class($command)
                 )
             );

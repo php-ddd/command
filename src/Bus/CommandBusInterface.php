@@ -3,7 +3,6 @@ namespace PhpDDD\Command\Bus;
 
 use PhpDDD\Command\CommandInterface;
 use PhpDDD\Command\Handler\CommandHandlerInterface;
-use PhpDDD\Domain\AbstractAggregateRoot;
 
 /**
  * Accept and process commands by passing them along to a matching command handler.
@@ -15,7 +14,7 @@ interface CommandBusInterface
      *
      * @param CommandInterface $command
      *
-     * @return AbstractAggregateRoot[]
+     * @return mixed
      */
     public function dispatch(CommandInterface $command);
 

@@ -2,7 +2,6 @@
 namespace PhpDDD\Command\Handler;
 
 use PhpDDD\Command\CommandInterface;
-use PhpDDD\Domain\AbstractAggregateRoot;
 
 /**
  * A Command Handler aims to act on a specific command.
@@ -14,18 +13,18 @@ interface CommandHandlerInterface
     /**
      * Tells whether the command given in argument can be handle by this handler or not.
      *
-     * @param CommandInterface $command
+     * @param string $commandClassName
      *
      * @return bool
      */
-    public function acceptCommand(CommandInterface $command);
+    public function supports($commandClassName);
 
     /**
      * Process the command.
      *
      * @param CommandInterface $command
      *
-     * @return AbstractAggregateRoot|null
+     * @return mixed
      */
     public function handle(CommandInterface $command);
 }
