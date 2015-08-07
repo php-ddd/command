@@ -122,7 +122,7 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
      */
     private function extractCommands(array $commandsToDispatch)
     {
-        $commands = [];
+        $commands = array();
         foreach ($commandsToDispatch as $command) {
             if (is_array($command)) {
                 $commands = array_merge($commands, $this->extractCommands($command));
