@@ -1,4 +1,4 @@
-Command [![Build Status](https://travis-ci.org/php-ddd/command.svg)](https://travis-ci.org/php-ddd/command) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-ddd/command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/php-ddd/command/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master) 
+Command [![Build Status](https://travis-ci.org/php-ddd/command.svg)](https://travis-ci.org/php-ddd/command) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-ddd/command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/php-ddd/command/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-ddd/command/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/993051dc-280f-4c82-91a4-1e9bcf6a12c4/mini.png)](https://insight.sensiolabs.com/projects/993051dc-280f-4c82-91a4-1e9bcf6a12c4)
 =======
 
 This library provides some useful tools in order to create a simple command system.
