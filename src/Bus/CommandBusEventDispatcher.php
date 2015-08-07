@@ -6,7 +6,7 @@ use PhpDDD\Command\Handler\CommandHandlerInterface;
 use PhpDDD\Domain\AbstractAggregateRoot;
 use PhpDDD\Domain\Event\Bus\EventBusInterface;
 use PhpDDD\Domain\Event\EventInterface;
-use PhpDDD\Domain\Event\Listener\EventListenerInterface;
+use PhpDDD\Domain\Event\Listener\EventListenerCollection;
 
 /**
  * Class that act as a CommandBus and dispatch events
@@ -63,7 +63,7 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
      *
      * @param EventInterface $event
      *
-     * @return array data returned by each EventListener
+     * @return string[]|null data returned by each EventListener
      */
     public function publish(EventInterface $event)
     {
@@ -79,7 +79,7 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
      * Get the list of every EventListener defined in the EventBus.
      * This might be useful for debug
      *
-     * @return EventListenerInterface[]
+     * @return EventListenerCollection[]
      */
     public function getRegisteredEventListeners()
     {
@@ -122,7 +122,7 @@ class CommandBusEventDispatcher implements CommandBusInterface, EventBusInterfac
      */
     private function extractCommands(array $commandsToDispatch)
     {
-        $commands = array();
+        $commands = [];
         foreach ($commandsToDispatch as $command) {
             if (is_array($command)) {
                 $commands = array_merge($commands, $this->extractCommands($command));
