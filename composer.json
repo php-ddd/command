@@ -14,6 +14,9 @@
     "authors": [
         {
             "name": "Julien Dufresne"
+        },
+        {
+            "name": "Damien Buton"
         }
     ],
     "require": {
