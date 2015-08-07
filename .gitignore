@@ -1,12 +1,13 @@
-
-# Composer
-composer.phar
-vendor/
+### Composer
+/composer.phar
+/vendor/
 
 # IDE
-.idea/
+/.idea/
 
-# Dev tools
-.php_cs.cache
-build/
-phpunit.xml
+### Php-cs
+/.php_cs.cache
+
+### Phpunit
+/build/
+/phpunit.xml
