@@ -7,7 +7,7 @@ php:
   - 5.6
 
 before_script:
-  - COMPOSER_ROOT_VERSION=dev-master composer install
+  - COMPOSER_ROOT_VERSION=dev-master composer install --no-interaction
 
 script:
   - phpunit --coverage-clover=coverage.clover
